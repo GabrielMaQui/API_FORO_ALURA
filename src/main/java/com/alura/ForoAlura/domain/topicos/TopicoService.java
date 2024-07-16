@@ -7,9 +7,13 @@ import com.alura.ForoAlura.domain.usuario.Usuario;
 import com.alura.ForoAlura.domain.usuario.UsuarioRepositorio;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TopicoService {
@@ -48,5 +52,14 @@ public class TopicoService {
                 topico.getMensaje(),
                 topico.getFechaCreacion()
         );
+    }
+    public Page<TopicoDTORead> obtenerTodosLosTopicos(Pageable paginacion) {
+        return topicoRepositorio.findAll(paginacion)
+                .map(topico -> new TopicoDTORead(
+                        topico.getId(),
+                        topico.getTitulo(),
+                        topico.getMensaje(),
+                        topico.getFechaCreacion()
+                ));
     }
 }
