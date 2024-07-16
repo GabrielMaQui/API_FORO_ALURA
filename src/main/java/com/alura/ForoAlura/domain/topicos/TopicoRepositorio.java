@@ -1,4 +1,6 @@
 package com.alura.ForoAlura.domain.topicos;
 
-public class TopicoRepositorio {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TopicoRepositorio extends JpaRepository<Topico, Integer> {
 }

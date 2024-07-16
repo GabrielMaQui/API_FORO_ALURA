@@ -1,4 +1,6 @@
 package com.alura.ForoAlura.domain.usuario;
 
-public interface UsuarioRepositorio {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
 }
