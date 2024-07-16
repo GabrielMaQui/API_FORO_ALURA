@@ -3,6 +3,7 @@ package com.alura.ForoAlura.domain.topicos;
 
 import com.alura.ForoAlura.domain.cursos.Curso;
 import com.alura.ForoAlura.domain.cursos.CursoRepositorio;
+import com.alura.ForoAlura.domain.usuario.UserDTO;
 import com.alura.ForoAlura.domain.usuario.Usuario;
 import com.alura.ForoAlura.domain.usuario.UsuarioRepositorio;
 import jakarta.transaction.Transactional;
@@ -61,5 +62,24 @@ public class TopicoService {
                         topico.getMensaje(),
                         topico.getFechaCreacion()
                 ));
+    }
+
+    public TopicoDetalleDTO obtenerDetalleTopico(Long id) {
+
+        Topico topico = topicoRepositorio.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Tópico no encontrado"));
+        Usuario autor = usuarioRepositorio.findById(topico.getAutor().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+
+
+
+        return new TopicoDetalleDTO(
+                topico.getId(),
+                topico.getTitulo(),
+                topico.getMensaje(),
+                topico.getFechaCreacion(),
+                new UserDTO(autor.getId(), autor.getNombre(), autor.getEmail()),
+                topico.getCurso()
+        );
     }
 }

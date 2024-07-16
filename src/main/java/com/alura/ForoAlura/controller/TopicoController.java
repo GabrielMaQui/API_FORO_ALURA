@@ -1,10 +1,8 @@
 package com.alura.ForoAlura.controller;
 
-import com.alura.ForoAlura.domain.cursos.Curso;
-import com.alura.ForoAlura.domain.cursos.CursoRepositorio;
+
 import com.alura.ForoAlura.domain.topicos.*;
-import com.alura.ForoAlura.domain.usuario.Usuario;
-import com.alura.ForoAlura.domain.usuario.UsuarioRepositorio;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +28,12 @@ public class TopicoController {
     public ResponseEntity<Page<TopicoDTORead>> listadoMedicos(@PageableDefault(size = 5) Pageable paginacion) {
 //        return medicoRepository.findAll(paginacion).map(DatosListadoMedico::new);
         return ResponseEntity.ok(topicoService.obtenerTodosLosTopicos(paginacion));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TopicoDetalleDTO> obtenerDetalleTopico(@PathVariable Long id) {
+        TopicoDetalleDTO topico = topicoService.obtenerDetalleTopico(id);
+        return ResponseEntity.ok(topico);
     }
 
 }
