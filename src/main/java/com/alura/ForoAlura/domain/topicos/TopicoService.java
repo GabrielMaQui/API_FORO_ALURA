@@ -82,4 +82,34 @@ public class TopicoService {
                 topico.getCurso()
         );
     }
+
+    @Transactional
+    public TopicoResponseDTO actualizarTopico(Long id, TopicoActualizaDTO topicoRequestDTO) {
+        Topico topico = topicoRepositorio.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Tópico no encontrado"));
+
+        if (topicoRepositorio.existsByTituloAndMensaje(topicoRequestDTO.titulo(), topicoRequestDTO.mensaje())) {
+            throw new IllegalArgumentException("El tópico ya existe con el mismo título y mensaje.");
+        }
+
+        topico.setTitulo(topicoRequestDTO.titulo());
+        topico.setMensaje(topicoRequestDTO.mensaje());
+
+        topico = topicoRepositorio.save(topico);
+
+        return new TopicoResponseDTO(
+                topico.getId(),
+                topico.getTitulo(),
+                topico.getMensaje(),
+                topico.getFechaCreacion()
+        );
+    }
+
+    @Transactional
+    public void eliminarTopico(Long id) {
+        Topico topico = topicoRepositorio.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Tópico no encontrado"));
+
+        topicoRepositorio.delete(topico);
+    }
 }
