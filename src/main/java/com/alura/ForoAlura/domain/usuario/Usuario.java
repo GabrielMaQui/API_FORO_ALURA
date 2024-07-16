@@ -24,7 +24,7 @@ public class Usuario {
     private String nombre;
 
     @NotNull
-    private String correoElectronico;
+    private String email;
 
     @NotNull
     private String contrasena;
